@@ -1,4 +1,4 @@
-package battleship_main.ui;
+package main.ui;
 
 
 

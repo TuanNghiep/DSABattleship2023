@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.imageio.ImageIO;
+
+
 
 public class UIJPanelBG extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -26,13 +29,17 @@ public class UIJPanelBG extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        if (image != null) {
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 
     public static ImageIcon createImageIcon(String imagePath) {
         try (InputStream is = UIJPanelBG.class.getResourceAsStream(imagePath)) {
+            if (is != null) {
             BufferedImage image = ImageIO.read(is);
             return new ImageIcon(image);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

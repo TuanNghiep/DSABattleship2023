@@ -20,8 +20,8 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
             Toolkit.getDefaultToolkit().createImage(getClass().getResource("/res/images/ocean.png")));
     Report rep;
     Computer cpu;
-    static Mappa cpuMap;
-    static Mappa playerMap;
+    static Map cpuMap;
+    static Map playerMap;
     int numOctPlayer = 10;
     int numOctCPU = 10;
     StringBuilder sb = new StringBuilder();
@@ -40,7 +40,7 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
     int offsetX;
     static LinkedList<int[]> playerOctopus;// contains the inserted optopus, is for
     
-    public FrameBattle(LinkedList<int[]> playerOctopus, Mappa mappa) {
+    public FrameBattle(LinkedList<int[]> playerOctopus, Map map) {
         // Add this at the beginning of the constructor
         ImageIcon backIcon = new ImageIcon(getClass().getResource("/res/images/back.png"));
         JLabel backLabel = new JLabel(backIcon);
@@ -70,9 +70,9 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
         });
 
 
-        playerMap = mappa;
-        cpu = new Computer(mappa);
-        cpuMap = new Mappa();
+        playerMap = map;
+        cpu = new Computer(map);
+        cpuMap = new Map();
         cpuMap.initializeRandomMap();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(screenSize.width, screenSize.height);
@@ -206,13 +206,13 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
         if (p.getCoordX() != 0) { // Coordinates
             possibility.add("N");
         }
-        if (p.getCoordX() != Mappa.DIM_MAPPA - 1) {
+        if (p.getCoordX() != Map.DIM_MAP - 1) {
             possibility.add("S");
         }
         if (p.getCoordY() != 0) {
             possibility.add("O");
         }
-        if (p.getCoordY() != Mappa.DIM_MAPPA - 1) {
+        if (p.getCoordY() != Map.DIM_MAP - 1) {
             possibility.add("E");
         }
         String direction;
@@ -379,7 +379,7 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
         targetPanel.repaint();
     }
 
-    private void handleSaveClick(Mappa playerMappa,Mappa cpuMap) {
+    private void handleSaveClick(Map playerMap,Map cpuMap) {
         int result = JOptionPane.showConfirmDialog(
                 frame,
                 "Do you want to save the game?",
@@ -395,7 +395,7 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
                 e.printStackTrace();
             }
             try {
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("mappa.dat"));
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("map.dat"));
                 oos.writeObject(cpuMap);
                 oos.close();
             } catch (IOException e) {
@@ -407,18 +407,18 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
     void drawLoad(){
         ImageIcon fire = new ImageIcon(getClass().getResource("/res/images/fireButton.gif"));
         ImageIcon water = new ImageIcon(getClass().getResource("/res/images/grayButton.gif"));
-		for (int i = 0; i < Mappa.DIM_MAPPA; i++) {
-			for (int j = 0; j < Mappa.DIM_MAPPA; j++) {
+		for (int i = 0; i < Map.DIM_MAP; i++) {
+			for (int j = 0; j < Map.DIM_MAP; j++) {
 				
 			}
 		}
 
     }
     static void load(){
-        //Load the game from mappa.dat and playerOctopus.dat
+        //Load the game from map.dat and playerOctopus.dat
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("playerOctopus.dat"));
-            playerMap = (Mappa) ois.readObject();
+            playerMap = (Map) ois.readObject();
             ois.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -426,8 +426,8 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
             e.printStackTrace();
         }
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("mappa.dat"));
-            cpuMap = (Mappa) ois.readObject();
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("map.dat"));
+            cpuMap = (Map) ois.readObject();
             ois.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -449,6 +449,8 @@ public class FrameBattle implements ActionListener, KeyListener, Serializable {
         if (result == JOptionPane.YES_OPTION) {
             frame.dispose();
             // Open FrameManageOctopus here
+            FrameManageOctopus manage = new FrameManageOctopus();
+            manage.setVisible(true);
         }
     }
 }

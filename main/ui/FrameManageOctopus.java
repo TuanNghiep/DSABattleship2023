@@ -19,13 +19,13 @@ public class FrameManageOctopus extends JFrame implements ActionListener, KeyLis
     boolean finish = false;
     int insertOct = 0;
     int[] counterOct = { 1, 2, 3, 4 };
-    Mappa mappa;
+    Map map;
     UIManagePanel choosePan;
     UIMapPanel mapPanel;
 
     public FrameManageOctopus() {
         super("Octopus Battleship");
-        mappa = new Mappa();
+        map = new Map();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -65,19 +65,19 @@ public class FrameManageOctopus extends JFrame implements ActionListener, KeyLis
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton source = (JButton) e.getSource();
-        String testo = source.getText();
+        String test = source.getText();
         // RESET
-        if (testo.equals("reset")) {
+        if (test.equals("reset")) {
             reset();
         }
 
         // RANDOM
-        else if (testo.equals("random")) {
+        else if (test.equals("random")) {
             random();
         }
 
         // fight
-        else if (testo.equals("fight")) {
+        else if (test.equals("fight")) {
             fight();
 
         } else {
@@ -112,12 +112,12 @@ public class FrameManageOctopus extends JFrame implements ActionListener, KeyLis
                 dir = 0;
             else
                 dir = 1;
-            boolean inserito = mappa.insertOct(x, y, dim, dir);
-            if (inserito) {
+            boolean insert = map.insert(x, y, dim, dir);
+            if (insert) {
                 
-                // increment the number of inserted optopus
+                // increment the number of inserted octopus
                 insertOct++;
-                // decrease the number of inserted optopus
+                // decrease the number of inserted octopus
                 counterOct[ship]--;
                 choosePan.counterLabel[ship].setText("" + counterOct[ship]);
                 
@@ -156,7 +156,7 @@ public class FrameManageOctopus extends JFrame implements ActionListener, KeyLis
         int[] dati = new int[4];
         for (int i = 0; i < counterOct.length; i++) {
             for (int j = 0; j < counterOct[i]; j++) {
-                dati = mappa.insertOctRandom(r, counterOct.length - i);
+                dati = map.insertRandom(r, counterOct.length - i);
                 playerOctopus.add(dati);
                 mapPanel.drawOct(dati);
             }
@@ -178,10 +178,10 @@ public class FrameManageOctopus extends JFrame implements ActionListener, KeyLis
     }
 
     private void reset() {
-        mappa = new Mappa();
+        map = new Map();
         playerOctopus = new LinkedList<int[]>();
-        for (int i = 0; i < Mappa.DIM_MAPPA; i++) {
-            for (int j = 0; j < Mappa.DIM_MAPPA; j++) {
+        for (int i = 0; i < Map.DIM_MAP; i++) {
+            for (int j = 0; j < Map.DIM_MAP; j++) {
                 mapPanel.button[i][j].setEnabled(true);
             }
         }
@@ -201,7 +201,7 @@ public class FrameManageOctopus extends JFrame implements ActionListener, KeyLis
     }
 
     private void fight() {
-        FrameBattle battle = new FrameBattle(playerOctopus, mappa);
+        FrameBattle battle = new FrameBattle(playerOctopus, map);
         battle.frame.setVisible(true);
         this.setVisible(false);
         

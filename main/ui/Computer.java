@@ -10,14 +10,14 @@ public class Computer {
 	private LinkedList<String> possibility;
 	private Position lastHit;
 	private String direction;
-	private Mappa plMap;
+	private Map plMap;
 	private Position firstHitLocation;// location where you first hit the octopus
 
-	public Computer(Mappa cpuMap) {
+	public Computer(Map cpuMap) {
 		listOfHits = new LinkedList<Position>();
 		this.plMap = cpuMap;
-		for (int i = 0; i < Mappa.DIM_MAPPA; i++) {
-			for (int j = 0; j < Mappa.DIM_MAPPA; j++) {
+		for (int i = 0; i < Map.DIM_MAP; i++) {
+			for (int j = 0; j < Map.DIM_MAP; j++) {
 				Position p = new Position(i, j);
 				listOfHits.add(p);// initialize possible hits
 			}
@@ -154,7 +154,7 @@ public class Computer {
 
 				}
 			}
-			if (Yfin != Mappa.DIM_MAPPA - 1) {
+			if (Yfin != Map.DIM_MAP - 1) {
 				Position p = new Position(Xin, Yfin + 1);
 				if (!plMap.acqua(p)) {
 					listOfHits.remove(p);
@@ -171,7 +171,7 @@ public class Computer {
 				}
 
 			}
-			if (Xin != Mappa.DIM_MAPPA - 1) {
+			if (Xin != Map.DIM_MAP - 1) {
 				for (int i = 0; i <= Yfin - Yin; i++) {
 					Position p = new Position(Xin + 1, Yin + i);
 					if (!plMap.acqua(p)) {
@@ -188,7 +188,7 @@ public class Computer {
 					plMap.setAcqua(p);
 				}
 			}
-			if (Xfin != Mappa.DIM_MAPPA - 1) {
+			if (Xfin != Map.DIM_MAP - 1) {
 				Position p = new Position(Xfin + 1, Yin);
 				if (!plMap.acqua(p)) {
 					listOfHits.remove(p);
@@ -205,7 +205,7 @@ public class Computer {
 				}
 
 			}
-			if (Yfin != Mappa.DIM_MAPPA - 1) {
+			if (Yfin != Map.DIM_MAP - 1) {
 				for (int i = 0; i <= Xfin - Xin; i++) {
 					Position p = new Position(Xin + i, Yin + 1);
 					if (!plMap.acqua(p)) {
@@ -221,13 +221,13 @@ public class Computer {
 		if (lastHit.getCoordX() != 0) {
 			possibility.add("N");
 		}
-		if (lastHit.getCoordX() != Mappa.DIM_MAPPA - 1) {
+		if (lastHit.getCoordX() != Map.DIM_MAP - 1) {
 			possibility.add("S");
 		}
 		if (lastHit.getCoordY() != 0) {
 			possibility.add("O");
 		}
-		if (lastHit.getCoordY() != Mappa.DIM_MAPPA - 1) {
+		if (lastHit.getCoordY() != Map.DIM_MAP - 1) {
 			possibility.add("E");
 		}
 	}
